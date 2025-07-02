@@ -1,0 +1,42 @@
+
+CREATE DATABASE FarmV3Db;
+
+
+USE FarmV3Db;
+GO
+
+CREATE TABLE Users (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(100) NOT NULL,
+    Email NVARCHAR(100) UNIQUE NOT NULL,
+    Password NVARCHAR(100) NOT NULL,
+    Role NVARCHAR(20) NOT NULL 
+);
+
+
+CREATE TABLE Farms (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(100) NOT NULL,
+    Address NVARCHAR(255),
+    OwnerId INT NOT NULL,
+    FOREIGN KEY (OwnerId) REFERENCES Users(Id)
+);
+
+
+CREATE TABLE Animals (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Type NVARCHAR(100) NOT NULL,
+    Quantity INT NOT NULL,
+    FarmId INT NOT NULL,
+    FOREIGN KEY (FarmId) REFERENCES Farms(Id)
+);
+
+CREATE TABLE FarmTransactions (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    CustomerId INT NOT NULL,
+    FarmId INT NOT NULL,
+    Amount INT,
+    TransactionDate DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (CustomerId) REFERENCES Users(Id),
+    FOREIGN KEY (FarmId) REFERENCES Farms(Id)
+);
