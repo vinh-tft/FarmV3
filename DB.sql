@@ -40,3 +40,11 @@ CREATE TABLE FarmTransactions (
     FOREIGN KEY (CustomerId) REFERENCES Users(Id),
     FOREIGN KEY (FarmId) REFERENCES Farms(Id)
 );
+
+CREATE TABLE FarmPictures (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    FarmId INT NOT NULL,
+    ImageUrl NVARCHAR(255) NOT NULL,
+    UploadedAt DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (FarmId) REFERENCES Farms(Id)
+);
