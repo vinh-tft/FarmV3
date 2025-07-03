@@ -1,0 +1,25 @@
+{
+  "_id": {
+    "$oid": "68665a434126426d6f748a5f"
+  },
+  "username": "nguyenvana",
+  "password": "$2a$12$WqYF.8MQ/PC1lYksWJLXC.cU4YVl33M9zAQwh9e7Q0MSW1.P9XFQ6",
+  "email": "vana@gmail.com",
+  "phone": "0909123456",
+  "role": "CUSTOMER",
+  "isActive": true,
+  "googleId": null
+}
+
+{
+  "_id": {
+    "$oid": "68665aaf4126426d6f748a60"
+  },
+  "username": "nguyenduyan",
+  "password": "$2a$12$WqYF.8MQ/PC1lYksWJLXC.cU4YVl33M9zAQwh9e7Q0MSW1.P9XFQ6",
+  "email": "daianh2k00@gmail.com",
+  "phone": "0388041884",
+  "role": "ADMIN",
+  "isActive": true,
+  "googleId": null
+}
