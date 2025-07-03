@@ -1,4 +1,5 @@
 const FarmService = require("../Services/FarmServices");
+const Farm = require("../Models/Farm.Model");
 
 module.exports = {
   async createFarm(req, res) {
@@ -16,20 +17,32 @@ module.exports = {
   },
 
   async getFarmById(req, res) {
-    const farm = await FarmService.getFarmById(req.params.id);
+    const farm = await Farm.findOne({ farmId: parseInt(req.params.id) });
     if (!farm) return res.status(404).json({ message: "Không tìm thấy" });
     res.json(farm);
   },
 
   async updateFarm(req, res) {
-    const farm = await FarmService.updateFarm(req.params.id, req.body);
+  try {
+    const id = parseInt(req.params.id);
+    const farm = await FarmService.updateFarm(id, req.body);
     if (!farm) return res.status(404).json({ message: "Không tìm thấy" });
     res.json(farm);
-  },
+  } catch (error) {
+    console.error("Lỗi khi cập nhật farm:", error);
+    res.status(500).json({ message: "Lỗi máy chủ" });
+  }
+},
 
-  async deleteFarm(req, res) {
-    const farm = await FarmService.deleteFarm(req.params.id);
+async deleteFarm(req, res) {
+  try {
+    const id = parseInt(req.params.id); 
+    const farm = await FarmService.deleteFarm(id);
     if (!farm) return res.status(404).json({ message: "Không tìm thấy" });
     res.json({ message: "Đã xoá" });
+  } catch (error) {
+    console.error("Lỗi khi xoá farm:", error);
+    res.status(500).json({ message: "Lỗi máy chủ" });
   }
+}
 };
