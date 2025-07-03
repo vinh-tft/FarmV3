@@ -1,29 +1,27 @@
-const db = require('../Config/MyDB');
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-const FarmPicture = {
-
-  async getByFarmId(farmId) {
-    const result = await db.query`
-      SELECT * FROM FarmPictures WHERE FarmId = ${farmId}
-    `;
-    return result.recordset;
+const farmPictureSchema = new Schema(
+  {
+    farmId: {
+      type: Schema.Types.ObjectId,
+      ref: "Farm",
+      required: true,
+    },
+    url: { type: String, required: true },
+    description: { type: String, default: "" },
+    isMain: { type: Boolean, default: false },
   },
+  { timestamps: true }
+);
 
-  async create({ FarmId, ImageUrl }) {
-    const result = await db.query`
-      INSERT INTO FarmPictures (FarmId, ImageUrl)
-      OUTPUT INSERTED.*
-      VALUES (${FarmId}, ${ImageUrl})
-    `;
-    return result.recordset[0];
+farmPictureSchema.set("toJSON", {
+  virtuals: true,
+  versionKey: false,
+  transform: (_, ret) => {
+    ret.id = ret._id;
+    delete ret._id;
   },
+});
 
-  async delete(pictureId) {
-    const result = await db.query`
-      DELETE FROM FarmPictures WHERE Id = ${pictureId}
-    `;
-    return result.rowsAffected[0] > 0;
-  }
-};
-
-module.exports = FarmPicture;
+module.exports = mongoose.model("FarmPicture", farmPictureSchema);

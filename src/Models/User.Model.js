@@ -1,24 +1,25 @@
-const db = require('../Config/MyDB');
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-const User = {
-  async getAll() {
-    const result = await db.query`SELECT * FROM Users`;
-    return result.recordset;
+const userSchema = new Schema(
+  {
+    username: { type: String, required: true, unique: true, trim: true },
+    password: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    phone: { type: String, default: "" },
+    role: { type: String, enum: ["ADMIN", "FARMER", "CUSTOMER"], default: "CUSTOMER" },
+    isActive: { type: Boolean, default: true },
   },
+  { timestamps: true }
+);
 
-  async getById(id) {
-    const result = await db.query`SELECT * FROM Users WHERE Id = ${id}`;
-    return result.recordset[0];
+userSchema.set("toJSON", {
+  virtuals: true,
+  versionKey: false,
+  transform: (_, ret) => {
+    ret.id = ret._id;
+    delete ret._id;
   },
+});
 
-  async create({ Name, Email, Password, Role }) {
-    const result = await db.query`
-      INSERT INTO Users (Name, Email, Password, Role)
-      OUTPUT INSERTED.*
-      VALUES (${Name}, ${Email}, ${Password}, ${Role})
-    `;
-    return result.recordset[0];
-  }
-};
-
-module.exports = User;
+module.exports = mongoose.model("User", userSchema);
