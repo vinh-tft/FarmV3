@@ -2,12 +2,31 @@ const authService = require('../Services/auth.service');
 
 async function login(req, res) {
   try {
-    const { username, password } = req.body;
-    const { user, token } = await authService.login({ username, password });
+    const { user, token } = await authService.login(req.body);
     res.json({ data: { user, token } });
   } catch (err) {
     res.status(err.status || 500).json({ message: err.message });
   }
 }
 
-module.exports = { login };
+//Controller cho quên mật khẩu
+async function forgotPassword(req, res) {
+  try {
+    await authService.forgotPassword(req.body.email, req.get('origin'));
+    res.json({ message: 'Gửi email thành công' });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+}
+
+//Controller cho reset mật khẩu
+async function resetPassword(req, res) {
+  try {
+    await authService.resetPassword(req.body.token, req.body.password);
+    res.json({ message: 'Đặt lại mật khẩu thành công' });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+}
+
+module.exports = { login, forgotPassword, resetPassword };
