@@ -28,10 +28,22 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-// Route gốc
+// Khai báo route auth
+const authRoutes = require('../Routes/auth.routes');
+app.use('/api/auth', authRoutes);
+
+const path = require('path');
+
+app.use(express.static(path.join(__dirname, '..', 'public')));
+
 app.get('/', (req, res) => {
-  res.send('🌱 Chào mừng đến với FarmV3 API!');
+  res.sendFile(path.join(__dirname, '..', 'public', 'login.html'));
 });
+
+// // Route gốc
+// app.get('/', (req, res) => {
+//   res.send('🌱 Chào mừng đến với FarmV3 API!');
+// });
 
 // Kết nối tới MongoDB rồi mới khởi động server
 connectToMongo()
