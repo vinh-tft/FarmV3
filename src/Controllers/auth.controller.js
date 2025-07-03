@@ -2,12 +2,15 @@ const authService = require('../Services/auth.service');
 
 async function login(req, res) {
   try {
+    console.log("Yêu cầu login:", req.body); 
     const { user, token } = await authService.login(req.body);
     res.json({ data: { user, token } });
   } catch (err) {
+    console.error("Lỗi login:", err); 
     res.status(err.status || 500).json({ message: err.message });
   }
 }
+
 
 //Controller cho quên mật khẩu
 async function forgotPassword(req, res) {

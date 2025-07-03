@@ -1,24 +1,67 @@
-const { MongoClient } = require("mongodb");
+// require("dotenv").config();
+// const { MongoClient } = require("mongodb");
 
-const uri = "mongodb://localhost:27017";
-const dbName = "farmv3db";               
+// const uri = process.env.MONGO_URI;
+// const dbName = "farmv3db";
 
-let db;
+// let db;
+
+// const connectToMongo = async () => {
+//   try {
+//     const client = new MongoClient(uri, { useUnifiedTopology: true });
+//     await client.connect();
+//     db = client.db(dbName);
+//     console.log("✅ Đã kết nối MongoDB thành công!");
+//   } catch (error) {
+//     console.error("❌ Lỗi kết nối MongoDB:", error.message);
+//     throw error;
+//   }
+// };
+
+// const getDB = () => {
+//   if (!db) {
+//     throw new Error("❌ Database chưa được kết nối");
+//   }
+//   return db;
+// };
+
+// module.exports = {
+//   connectToMongo,
+//   getDB,
+// };
+
+
+// const mongoose = require('mongoose');
+
+// async function connectToMongo() {
+//   try {
+//     await mongoose.connect(process.env.MONGO_URI, {
+//       useNewUrlParser: true,
+//       useUnifiedTopology: true,
+//     });
+//     console.log('✅ Đã kết nối MongoDB thành công!');
+//   } catch (error) {
+//     console.error('❌ Kết nối MongoDB thất bại:', error.message);
+//     throw error;
+//   }
+// }
+
+// module.exports = { connectToMongo };
+
+require('dotenv').config();
+const mongoose = require('mongoose');
 
 const connectToMongo = async () => {
   try {
-    const client = new MongoClient(uri, { useUnifiedTopology: true });
-    await client.connect();
-    db = client.db(dbName);
-    console.log("Đã kết nối MongoDB thành công!");
-  } catch (error) {
-    console.error("Lỗi kết nối MongoDB:", error.message);
+    await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('✅ Kết nối MongoDB (Mongoose) thành công!');
+  } catch (err) {
+    console.error('❌ Lỗi kết nối MongoDB:', err.message);
+    throw err;
   }
 };
 
-const getDB = () => db;
-
-module.exports = {
-  connectToMongo,
-  getDB,
-};
+module.exports = { connectToMongo };

@@ -1,17 +1,21 @@
 const User = require('../Models/User.Model');
+const bcrypt = require('bcrypt');
 const { signToken } = require('../utils/jwt');
-const { sendEmail } = require('../utils/mailer');
+const { sendEmail } = require('../utils/email');
+
 
 async function login({ username, password }) {
   const user = await User.findOne({ username });
-  if (!user) throw Object.assign(new Error('Username hoặc mật khẩu không chính xác'), { status: 401 });
+  if (!user) throw { status: 404, message: 'Không tìm thấy người dùng' };
 
-  const valid = await user.comparePassword(password);
-  if (!valid) throw Object.assign(new Error('Username hoặc mật khẩu không chính xác'), { status: 401 });
+  const isMatch = await bcrypt.compare(password, user.password);
+  if (!isMatch) throw { status: 401, message: 'Sai mật khẩu' };
 
   const token = signToken({ id: user._id, role: user.role });
-  return { user: user.toJSON(), token };
+
+  return { user, token };
 }
+
 
 //Service xử lý quên mật khẩu: tạo token, gửi mail
 async function forgotPassword(email, origin) {
@@ -27,7 +31,7 @@ async function forgotPassword(email, origin) {
 async function resetPassword(token, newPassword) {
   const user = await User.findOne({ resetPasswordToken: token, resetPasswordExpires: { $gt: Date.now() } });
   if (!user) throw new Error('Token không hợp lệ hoặc đã hết hạn');
-  user.password = newPassword;
+  user.password = await bcrypt.hash(newPassword, 12);
   user.resetPasswordToken = undefined;
   user.resetPasswordExpires = undefined;
   await user.save();
