@@ -1,36 +1,29 @@
-const db = require('../Config/MyDB');
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-const Animal = {
-  async getByFarmId(farmId) {
-    const result = await db.query`SELECT * FROM Animals WHERE FarmId = ${farmId}`;
-    return result.recordset;
+const animalSchema = new Schema(
+  {
+    name: { type: String, required: true },
+    type: { type: String, required: true },
+    quantity: { type: Number, default: 1 },
+    description: { type: String, default: "" },
+    imageUrl: { type: String, default: "" },
+    farmId: {
+      type: Schema.Types.ObjectId,
+      ref: "Farm",
+      required: true,
+    },
   },
+  { timestamps: true }
+);
 
-  async create({ Type, Quantity, FarmId }) {
-    const result = await db.query`
-      INSERT INTO Animals (Type, Quantity, FarmId)
-      OUTPUT INSERTED.*
-      VALUES (${Type}, ${Quantity}, ${FarmId})
-    `;
-    return result.recordset[0];
+animalSchema.set("toJSON", {
+  virtuals: true,
+  versionKey: false,
+  transform: (_, ret) => {
+    ret.id = ret._id;
+    delete ret._id;
   },
+});
 
-  async updateQuantity(animalId, newQuantity) {
-    const result = await db.query`
-      UPDATE Animals
-      SET Quantity = ${newQuantity}
-      OUTPUT INSERTED.*
-      WHERE Id = ${animalId}
-    `;
-    return result.recordset[0];
-  },
-
-  async delete(animalId) {
-    const result = await db.query`
-      DELETE FROM Animals WHERE Id = ${animalId}
-    `;
-    return result.rowsAffected[0] > 0;
-  }
-};
-
-module.exports = Animal;
+module.exports = mongoose.model("Animal", animalSchema);
