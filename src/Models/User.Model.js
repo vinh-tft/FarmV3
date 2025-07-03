@@ -12,6 +12,22 @@ const userSchema = new Schema(
   },
   { timestamps: true }
 );
+// Chuyển password trước khi lưu
+userSchema.pre('save', async function(next) {
+  if (!this.isModified('password')) return next();
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
+
+// So sánh mật khẩu
+userSchema.methods.comparePassword = function(candidate) {
+  return bcrypt.compare(candidate, this.password);
+};
 
 userSchema.set("toJSON", {
   virtuals: true,
