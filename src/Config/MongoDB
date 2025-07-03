@@ -1,24 +1,12 @@
-const { MongoClient } = require("mongodb");
-
-const uri = "mongodb://localhost:27017";
-const dbName = "farmv3db";               
-
-let db;
+const mongoose = require("mongoose");
 
 const connectToMongo = async () => {
   try {
-    const client = new MongoClient(uri, { useUnifiedTopology: true });
-    await client.connect();
-    db = client.db(dbName);
+    await mongoose.connect("mongodb://localhost:27017/farmv3db");
     console.log("Đã kết nối MongoDB thành công!");
   } catch (error) {
     console.error("Lỗi kết nối MongoDB:", error.message);
   }
 };
 
-const getDB = () => db;
-
-module.exports = {
-  connectToMongo,
-  getDB,
-};
+module.exports = connectToMongo;
