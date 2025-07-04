@@ -1,0 +1,56 @@
+[
+  {
+    "name": "Cà chua",
+    "type": "vegetable",
+    "quantity": 120,
+    "unit": "kg",
+    "description": "Cà chua bi Đà Lạt",
+    "imageUrl": "",
+    "farmId": { "$oid": "<ID_farm_1>" } 
+  },
+  {
+    "name": "Dưa leo",
+    "type": "vegetable",
+    "quantity": 80,
+    "unit": "kg",
+    "description": "Dưa leo sạch",
+    "imageUrl": "",
+    "farmId": { "$oid": "<ID_farm_1>" }
+  },
+  {
+    "name": "Gà ta",
+    "type": "poultry",
+    "quantity": 50,
+    "unit": "unit",
+    "description": "Gà ta thả vườn",
+    "imageUrl": "",
+    "farmId": { "$oid": "<ID_farm_2>" }
+  },
+  {
+    "name": "Vịt trời",
+    "type": "poultry",
+    "quantity": 30,
+    "unit": "unit",
+    "description": "Vịt trời mới thu hoạch",
+    "imageUrl": "",
+    "farmId": { "$oid": "<ID_farm_2>" }
+  },
+  {
+    "name": "Bò sữa",
+    "type": "livestock",
+    "quantity": 15,
+    "unit": "unit",
+    "description": "Bò sữa chất lượng cao",
+    "imageUrl": "",
+    "farmId": { "$oid": "<ID_farm_3>" }
+  },
+  {
+    "name": "Dê núi",
+    "type": "livestock",
+    "quantity": 10,
+    "unit": "unit",
+    "description": "Dê núi sạch",
+    "imageUrl": "",
+    "farmId": { "$oid": "<ID_farm_3>" }
+  }
+]

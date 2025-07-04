@@ -1,4 +1,5 @@
-{
+[
+    {
   "_id": {
     "$oid": "68665a434126426d6f748a5f"
   },
@@ -9,7 +10,7 @@
   "role": "CUSTOMER",
   "isActive": true,
   "googleId": null
-}
+},
 
 {
   "_id": {
@@ -23,3 +24,4 @@
   "isActive": true,
   "googleId": null
 }
+]
