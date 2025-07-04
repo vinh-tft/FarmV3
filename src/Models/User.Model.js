@@ -19,6 +19,7 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
+// Tự động tăng userId khi tạo user mới
 userSchema.pre("save", async function (next) {
   if (this.isNew && !this.userId) {
     try {
@@ -37,13 +38,15 @@ userSchema.pre("save", async function (next) {
   }
 });
 
+// Chỉnh sửa JSON trả về
 userSchema.set("toJSON", {
   virtuals: true,
   versionKey: false,
   transform: (_, ret) => {
-    ret.id = ret._id;
-    delete ret._id;
-    delete ret.password;
+    ret.id = ret.userId;    // Trả về id là số tăng userId
+    delete ret._id;         // Ẩn _id mặc định MongoDB
+    delete ret.password;    // Ẩn password
+    delete ret.userId;      // Ẩn trường userId gốc
   },
 });
 
