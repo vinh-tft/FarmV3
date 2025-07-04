@@ -5,6 +5,7 @@ const farmRoutes = require("./src/Routes/FarmRoutes");
 const authRoutes = require("./src/Routes/Auth.routes");
 const animalRoutes = require('./src/Routes/Animal.routes');
 const setupSwagger = require("./src/Config/Swagger");
+const session = require('express-session');
 
 // const app = express();
 // const port = 3000;
@@ -39,6 +40,18 @@ const app = express();
 const port = 3000;
 
 app.use(express.json());
+
+app.use(
+  session({
+    secret: 'duyan', // Bạn có thể đổi thành chuỗi bất kỳ
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false, // true nếu dùng HTTPS
+      maxAge: 1000 * 60 * 60, // 1 giờ
+    },
+  })
+);
 
 connectToMongo();
 
