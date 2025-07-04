@@ -4,6 +4,7 @@ const connectToMongo = require("./src/Config/MongoDB");
 const farmRoutes = require("./src/Routes/FarmRoutes");
 const authRoutes = require("./src/Routes/Auth.routes");
 const animalRoutes = require('./src/Routes/Animal.routes');
+const authRoutes = require("./src/Routes/auth.route");
 const setupSwagger = require("./src/Config/Swagger");
 const session = require('express-session');
 
@@ -59,6 +60,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/farms", farmRoutes);
 app.use("/api/animals", animalRoutes);
 
+app.use("/api/auth", authRoutes);
 setupSwagger(app);
 
 app.listen(port, () => {
