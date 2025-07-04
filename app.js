@@ -2,6 +2,7 @@ const express = require("express");
 const connectToMongo = require("./src/Config/MongoDB");
 const farmRoutes = require("./src/Routes/FarmRoutes");
 const authRoutes = require("./src/Routes/auth.route");
+const userRoutes = require("./src/Routes/User.Routes");
 const setupSwagger = require("./src/Config/Swagger");
 
 const app = express();
@@ -13,6 +14,8 @@ connectToMongo();
 
 app.use("/api/farms", farmRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+
 setupSwagger(app);
 
 app.listen(port, () => {

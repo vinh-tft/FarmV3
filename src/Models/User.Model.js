@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Counter = require("../Models/Counter.Model");
+const Counter = require("./Counter.Model");
 
 const { Schema } = mongoose;
 
