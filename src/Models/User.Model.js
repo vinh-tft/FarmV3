@@ -1,10 +1,11 @@
-
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
+const Counter = require("../Models/Counter.Model");
 
 const { Schema } = mongoose;
 
 const userSchema = new Schema(
   {
+    userId: { type: Number, unique: true },
     username: { type: String, required: true, unique: true, trim: true },
     password: { type: String, required: true },
     email: { type: String, required: true, unique: true },
@@ -19,17 +20,33 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-// Optional: Clean up when converting to JSON
+userSchema.pre("save", async function (next) {
+  if (this.isNew) {
+    try {
+      const counter = await Counter.findOneAndUpdate(
+        { id: "userId" },
+        { $inc: { seq: 0 } },
+        { new: true, upsert: true }
+      );
+      this.userId = counter.seq;
+      next();
+    } catch (err) {
+      next(err);
+    }
+  } else {
+    next();
+  }
+});
+
 userSchema.set("toJSON", {
   virtuals: true,
   versionKey: false,
   transform: (_, ret) => {
-    ret.id = ret._id;
+    ret.id = ret.userId;
     delete ret._id;
-    delete ret.password; // Ẩn password khi trả về response
-    delete ret._id;
+    delete ret.password;
+    delete ret.userId;
   },
 });
 
-const User = mongoose.model("User", userSchema);
-export default User;
+module.exports = mongoose.model("User", userSchema);

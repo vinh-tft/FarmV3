@@ -17,9 +17,9 @@ const farmSchema = new Schema(
       default: "pending",
     },
     owner: {
-      type: Schema.Types.ObjectId,
+      type: Number,
       ref: "User",
-      required: false,
+      required: true,
     },
   },
   { timestamps: true }

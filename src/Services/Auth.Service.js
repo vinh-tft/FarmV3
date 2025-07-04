@@ -1,22 +1,28 @@
-// src/services/auth.service.js
-import bcrypt from "bcryptjs";
-import User from "../Models/User.Model.js";
+const bcrypt = require("bcryptjs");
+const UserRepo = require("../Repository/Auth.Repository");
 
-export const register = async ({ username, email, password, phone }) => {
-  const existing = await User.findOne({ email });
-  if (existing) {
-    throw new Error("Email already in use");
+const VALID_ROLES = ["CUSTOMER", "FARMER"];
+
+exports.register = async (data) => {
+  const { username, password, email, phone, role } = data;
+
+  const existingUser = await UserRepo.findByEmail(email);
+  if (existingUser) {
+    throw new Error("Email đã tồn tại");
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const user = new User({
+  const normalizedRole = (role || "CUSTOMER").toUpperCase();
+  const finalRole = VALID_ROLES.includes(normalizedRole) ? role : "CUSTOMER";
+
+  const newUser = await UserRepo.createUser({
     username,
-    email,
     password: hashedPassword,
+    email,
     phone,
+    role: normalizedRole,
   });
 
-  await user.save();
-  return user.toJSON(); // trả về object sạch (ẩn password nhờ transform)
+  return newUser;
 };
