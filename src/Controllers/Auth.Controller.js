@@ -1,5 +1,4 @@
 const authService = require("../Services/Auth.Service");
-const AuthService = require("../Services/Auth.Service");
 
 module.exports = {
   login: async (req, res) => {
@@ -11,6 +10,7 @@ module.exports = {
       return res.status(err.status || 500).json({ message: err.message || "Lỗi đăng nhập" });
     }
   },
+
   register: async (req, res) => {
     try {
       const user = await authService.register(req.body);
@@ -18,11 +18,5 @@ module.exports = {
     } catch (err) {
       res.status(err.status || 400).json({ message: err.message });
     }
-exports.register = async (req, res) => {
-  try {
-    const newUser = await AuthService.register(req.body);
-    res.status(201).json(newUser);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
   }
 };

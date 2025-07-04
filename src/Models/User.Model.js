@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const crypto = require('crypto');
-const mongoose = require("mongoose");
 const Counter = require("../Models/Counter.Model");
 
 const { Schema } = mongoose;
@@ -9,7 +7,7 @@ const userSchema = new Schema(
   {
     userId: { type: Number, unique: true },
     username: { type: String, required: true, unique: true, trim: true },
-    password: { type: String }, // plain text password (KHÔNG BẢO MẬT)
+    password: { type: String },
     email:    { type: String, required: true, unique: true },
     phone:    { type: String, default: '' },
     role:     { type: String, enum: ['ADMIN', 'FARMER', 'CUSTOMER'], default: 'CUSTOMER' },
@@ -21,19 +19,12 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-// userSchema.methods.generatePasswordReset = function () {
-//   this.resetPasswordToken = crypto.randomBytes(20).toString('hex');
-//   this.resetPasswordExpires = Date.now() + 3600000; // 1 giờ
-// };
-
-// Ẩn một số trường khi toJSON
-userSchema.set('toJSON', {
 userSchema.pre("save", async function (next) {
-  if (this.isNew) {
+  if (this.isNew && !this.userId) {
     try {
       const counter = await Counter.findOneAndUpdate(
         { id: "userId" },
-        { $inc: { seq: 0 } },
+        { $inc: { seq: 1 } },
         { new: true, upsert: true }
       );
       this.userId = counter.seq;
@@ -50,15 +41,12 @@ userSchema.set("toJSON", {
   virtuals: true,
   versionKey: false,
   transform: (_, ret) => {
-    ret.id = ret.userId;
+    ret.id = ret._id;
     delete ret._id;
     delete ret.password;
-    // delete ret.resetPasswordToken;
-    // delete ret.resetPasswordExpires;
-    delete ret.password;
-    delete ret.userId;
   },
 });
 
-module.exports = mongoose.model('User', userSchema);
-module.exports = mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
+
+module.exports = User;

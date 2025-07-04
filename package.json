@@ -23,6 +23,7 @@
     "event-target-shim": "^5.0.1",
     "events": "^3.3.0",
     "express": "^5.1.0",
+    "express-session": "^1.18.1",
     "express-validator": "^7.2.1",
     "http-proxy-agent": "^7.0.2",
     "https-proxy-agent": "^7.0.6",

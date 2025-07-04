@@ -4,7 +4,6 @@ const connectToMongo = require("./src/Config/MongoDB");
 const farmRoutes = require("./src/Routes/FarmRoutes");
 const authRoutes = require("./src/Routes/Auth.routes");
 const animalRoutes = require('./src/Routes/Animal.routes');
-const authRoutes = require("./src/Routes/auth.route");
 const setupSwagger = require("./src/Config/Swagger");
 const session = require('express-session');
 
