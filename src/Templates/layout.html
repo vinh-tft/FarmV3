@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}} - GreenFields Farm</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8faf7;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .logo::before {
+            content: "🌱";
+            font-size: 32px;
+        }
+        
+        .tagline {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .greeting {
+            font-size: 18px;
+            color: #2E7D32;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        
+        .main-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #444;
+            margin-bottom: 30px;
+        }
+        
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            text-align: center;
+            margin: 20px 0;
+            transition: transform 0.2s;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .highlight-box {
+            background-color: #E8F5E8;
+            border-left: 4px solid #4CAF50;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .footer {
+            background-color: #f1f8f1;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .footer-links {
+            margin-bottom: 20px;
+        }
+        
+        .footer-links a {
+            color: #4CAF50;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+        }
+        
+        .social-icons {
+            margin: 20px 0;
+        }
+        
+        .social-icons a {
+            display: inline-block;
+            margin: 0 10px;
+            font-size: 20px;
+            text-decoration: none;
+        }
+        
+        .contact-info {
+            font-size: 14px;
+            color: #666;
+            margin-top: 20px;
+        }
+        
+        .unsubscribe {
+            font-size: 12px;
+            color: #999;
+            margin-top: 20px;
+        }
+        
+        .unsubscribe a {
+            color: #666;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .logo {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">GreenFields Farm</div>
+            <div class="tagline">Nông trại xanh - Tương lai bền vững</div>
+        </div>
+        
+        <div class="content">
+            {{content}}
+        </div>
+        
+        <div class="footer">
+            <div class="footer-links">
+                <a href="https://greenfields-farm.com">Trang chủ</a>
+                <a href="https://greenfields-farm.com/products">Sản phẩm</a>
+                <a href="https://greenfields-farm.com/about">Về chúng tôi</a>
+                <a href="https://greenfields-farm.com/contact">Liên hệ</a>
+            </div>
+            
+            <div class="social-icons">
+                <a href="#" style="color: #1877f2;">📘</a>
+                <a href="#" style="color: #1da1f2;">🐦</a>
+                <a href="#" style="color: #e4405f;">📷</a>
+                <a href="#" style="color: #0077b5;">💼</a>
+            </div>
+            
+            <div class="contact-info">
+                <strong>GreenFields Farm</strong><br>
+                📍 167 ấp Bắc 2, Xã Tân Điền, Huyện Gò Công Đông, Đồng Tháp<br>
+                📞 (03) 8804 1884 | 📧 daianh2k00@gmail.com<br>
+                🌐 www.greenfields-farm.com
+            </div>
+            
+            <div class="unsubscribe">
+                Bạn nhận được email này vì đã đăng ký nhận thông tin từ GreenFields Farm.<br>
+                <a href="{{unsubscribe_url}}">Hủy đăng ký</a> | <a href="{{preferences_url}}">Tùy chỉnh thông báo</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

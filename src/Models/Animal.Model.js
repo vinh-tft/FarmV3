@@ -1,21 +1,30 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
+const VALID_TYPES = ["vegetable", "poultry", "livestock"];
+const UNIT_MAP = {
+  vegetable: "kg",
+  poultry: "unit",
+  livestock: "unit",
+};
+
 const animalSchema = new Schema(
   {
-    name: { type: String, required: true },
-    type: { type: String, required: true },
-    quantity: { type: Number, default: 1 },
+    name: { type: String, required: true, trim: true },
+    type: { type: String, required: true, enum: VALID_TYPES },
+    quantity: { type: Number, default: 0, min: 0 },
+    unit: { type: String, enum: Object.values(UNIT_MAP) },
     description: { type: String, default: "" },
     imageUrl: { type: String, default: "" },
-    farmId: {
-      type: Schema.Types.ObjectId,
-      ref: "Farm",
-      required: true,
-    },
+    farmId: { type: Schema.Types.ObjectId, ref: "Farm", required: true },
   },
   { timestamps: true }
 );
+
+animalSchema.pre("validate", function (next) {
+  this.unit = UNIT_MAP[this.type];
+  next();
+});
 
 animalSchema.set("toJSON", {
   virtuals: true,
@@ -27,3 +36,4 @@ animalSchema.set("toJSON", {
 });
 
 module.exports = mongoose.model("Animal", animalSchema);
+
