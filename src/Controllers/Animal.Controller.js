@@ -1,4 +1,4 @@
-const AnimalService = require('.../Services/Animal.Service');
+const AnimalService = require('../Services/Animal.Service');
 
 const AnimalController = {
   create: async (req, res) => {
