@@ -6,14 +6,14 @@ const AnimalController = require('../Controllers/Animal.Controller');
  * @swagger
  * tags:
  *   name: Animals
- *   description: API cho động vật trong trang trại
+ *   description: API quản lý động vật/nông sản trong trang trại
  */
 
 /**
  * @swagger
  * /api/animals:
  *   post:
- *     summary: Tạo động vật mới
+ *     summary: Tạo động vật/nông sản mới
  *     tags: [Animals]
  *     requestBody:
  *       required: true
@@ -21,15 +21,31 @@ const AnimalController = require('../Controllers/Animal.Controller');
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - name
+ *               - type
+ *               - farmId
  *             properties:
  *               name:
  *                 type: string
- *               species:
+ *                 example: Gà ta
+ *               type:
  *                 type: string
- *               age:
+ *                 enum: [vegetable, poultry, livestock]
+ *                 example: poultry
+ *               quantity:
  *                 type: number
+ *                 minimum: 0
+ *                 example: 10
+ *               description:
+ *                 type: string
+ *                 example: Gà thả vườn không kháng sinh
+ *               imageUrl:
+ *                 type: string
+ *                 example: https://example.com/image.jpg
  *               farmId:
  *                 type: string
+ *                 example: 64a7cfb1e8f72a3b2c5d35ab
  *     responses:
  *       201:
  *         description: Tạo thành công
@@ -42,7 +58,7 @@ router.post('/', AnimalController.create);
  * @swagger
  * /api/animals:
  *   get:
- *     summary: Lấy danh sách tất cả động vật
+ *     summary: Lấy danh sách tất cả động vật/nông sản
  *     tags: [Animals]
  *     responses:
  *       200:
@@ -54,7 +70,7 @@ router.get('/', AnimalController.getAll);
  * @swagger
  * /api/animals/{id}:
  *   get:
- *     summary: Lấy thông tin động vật theo ID
+ *     summary: Lấy thông tin động vật/nông sản theo ID
  *     tags: [Animals]
  *     parameters:
  *       - in: path
@@ -62,7 +78,7 @@ router.get('/', AnimalController.getAll);
  *         required: true
  *         schema:
  *           type: string
- *         description: ID của động vật
+ *         description: ID của bản ghi
  *     responses:
  *       200:
  *         description: Thành công
@@ -75,7 +91,7 @@ router.get('/:id', AnimalController.getById);
  * @swagger
  * /api/animals/{id}:
  *   put:
- *     summary: Cập nhật thông tin động vật
+ *     summary: Cập nhật thông tin động vật/nông sản
  *     tags: [Animals]
  *     parameters:
  *       - in: path
@@ -83,7 +99,7 @@ router.get('/:id', AnimalController.getById);
  *         required: true
  *         schema:
  *           type: string
- *         description: ID động vật
+ *         description: ID của bản ghi
  *     requestBody:
  *       required: true
  *       content:
@@ -93,10 +109,15 @@ router.get('/:id', AnimalController.getById);
  *             properties:
  *               name:
  *                 type: string
- *               species:
+ *               type:
  *                 type: string
- *               age:
+ *                 enum: [vegetable, poultry, livestock]
+ *               quantity:
  *                 type: number
+ *               description:
+ *                 type: string
+ *               imageUrl:
+ *                 type: string
  *               farmId:
  *                 type: string
  *     responses:
@@ -113,7 +134,7 @@ router.put('/:id', AnimalController.update);
  * @swagger
  * /api/animals/{id}:
  *   delete:
- *     summary: Xóa động vật theo ID
+ *     summary: Xóa động vật/nông sản theo ID
  *     tags: [Animals]
  *     parameters:
  *       - in: path
@@ -121,7 +142,7 @@ router.put('/:id', AnimalController.update);
  *         required: true
  *         schema:
  *           type: string
- *         description: ID động vật cần xóa
+ *         description: ID bản ghi cần xóa
  *     responses:
  *       200:
  *         description: Xóa thành công
