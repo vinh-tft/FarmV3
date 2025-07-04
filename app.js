@@ -3,7 +3,7 @@ const path = require("path");
 const connectToMongo = require("./src/Config/MongoDB");
 const farmRoutes = require("./src/Routes/FarmRoutes");
 const authRoutes = require("./src/Routes/Auth.routes");
-// const animalRoutes = require("./src/Routes/Animal.routes");
+const animalRoutes = require('./src/Routes/Animal.routes');
 const setupSwagger = require("./src/Config/Swagger");
 
 const app = express();
