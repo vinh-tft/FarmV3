@@ -1,13 +1,11 @@
-// src/services/auth.service.js
 const bcrypt = require("bcryptjs");
 const User = require("../Models/User.Model");
-const { signToken } = require('../Utils/jwt');
 const { sendEmail } = require('../Utils/email');
 
 async function register({ username, email, password, phone }) {
   const existing = await User.findOne({ email });
   if (existing) {
-    throw new Error("Email already in use");
+    throw new Error("Email đã được sử dụng");
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -20,7 +18,12 @@ async function register({ username, email, password, phone }) {
   });
 
   await user.save();
-  return user.toJSON(); // Trả về object sạch (ẩn password nhờ transform)
+  return {
+    id: user._id,
+    email: user.email,
+    username: user.username,
+    role: user.role || 'user',
+  };
 }
 
 async function login({ username, password }) {
@@ -30,16 +33,19 @@ async function login({ username, password }) {
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) throw { status: 401, message: 'Sai mật khẩu' };
 
-  const token = signToken({ id: user._id, role: user.role });
-
-  return { user, token };
+  return {
+    id: user._id,
+    email: user.email,
+    username: user.username,
+    role: user.role || 'user',
+  };
 }
 
 async function forgotPassword(email, origin) {
   const user = await User.findOne({ email });
   if (!user) throw new Error('Email không tồn tại');
 
-  user.generatePasswordReset();
+  user.generatePasswordReset(); // gán token và thời hạn vào user
   await user.save();
 
   const link = `${origin}/reset-password?token=${user.resetPasswordToken}`;

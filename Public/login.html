@@ -130,27 +130,36 @@
   </div>
 
   <script>
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
+  document.getElementById("loginForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    const msg = document.getElementById("message");
+
+    try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ username, password }),
+        credentials: "include"
       });
+
       const result = await res.json();
-      const msg = document.getElementById("message");
+
       if (res.ok) {
-        localStorage.setItem("token", result.data.token);
         msg.style.color = "green";
         msg.innerText = "✅ Đăng nhập thành công!";
-        // window.location.href = "/dashboard.html";
       } else {
         msg.style.color = "#e53935";
         msg.innerText = result.message || "Đăng nhập thất bại.";
       }
-    });
-  </script>
+    } catch (error) {
+      msg.style.color = "#e53935";
+      msg.innerText = "Đã xảy ra lỗi kết nối đến máy chủ.";
+    }
+  });
+</script>
+
 </body>
 </html>
