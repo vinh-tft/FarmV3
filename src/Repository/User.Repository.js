@@ -1,4 +1,15 @@
-const users = [];
+const users = require("../Models/User.Model")
 
-export const findUserByEmail = (email) => users.find(u => u.email === email);
-export const createUser = (user) => users.push(user);
+console.log("User model loaded:", typeof User);
+
+const getAllUsers = () => users.find();
+const getUserById = (id) => users.findOne({ userId: id });
+const updateUser = (id, data) => users.findOneAndUpdate({ userId: id }, data, { new: true });
+const deleteUser = (id) => users.findOneAndDelete({ userId: id });
+
+module.exports = {
+    getAllUsers,
+    getUserById,
+    updateUser,
+    deleteUser,
+};

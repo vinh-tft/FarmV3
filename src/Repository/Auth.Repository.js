@@ -1,8 +1,8 @@
-const User = require("../Models/User.Model");
+const UserAuth = require("../Models/User.Model");
 const Counter = require("../Models/Counter.Model");
 
 exports.findByEmail = async (email) => {
-    return await User.findOne({ email });
+    return await UserAuth.findOne({ email });
 };
 
 exports.createUser = async (data) => {
