@@ -24,28 +24,18 @@ const AnimalController = require('../Controllers/Animal.Controller');
  *             required:
  *               - name
  *               - type
- *               - farmId
  *             properties:
  *               name:
  *                 type: string
- *                 example: Gà ta
  *               type:
  *                 type: string
  *                 enum: [vegetable, poultry, livestock]
- *                 example: poultry
  *               quantity:
  *                 type: number
- *                 minimum: 0
- *                 example: 10
  *               description:
  *                 type: string
- *                 example: Gà thả vườn không kháng sinh
  *               imageUrl:
  *                 type: string
- *                 example: https://example.com/image.jpg
- *               farmId:
- *                 type: string
- *                 example: 64a7cfb1e8f72a3b2c5d35ab
  *     responses:
  *       201:
  *         description: Tạo thành công
@@ -68,6 +58,35 @@ router.get('/', AnimalController.getAll);
 
 /**
  * @swagger
+ * /api/animals/search:
+ *   get:
+ *     summary: Tìm kiếm động vật/nông sản
+ *     tags: [Animals]
+ *     parameters:
+ *       - in: query
+ *         name: name
+ *         schema:
+ *           type: string
+ *         description: Tên động vật (tìm gần đúng)
+ *       - in: query
+ *         name: type
+ *         schema:
+ *           type: string
+ *           enum: [vegetable, poultry, livestock]
+ *         description: Loại động vật
+ *       - in: query
+ *         name: farmId
+ *         schema:
+ *           type: number
+ *         description: ID trang trại (kiểu số, tự tăng – không cần truyền khi tạo)
+ *     responses:
+ *       200:
+ *         description: Thành công
+ */
+router.get('/search', AnimalController.search); // 👈 Đặt trước :id
+
+/**
+ * @swagger
  * /api/animals/{id}:
  *   get:
  *     summary: Lấy thông tin động vật/nông sản theo ID
@@ -77,8 +96,8 @@ router.get('/', AnimalController.getAll);
  *         name: id
  *         required: true
  *         schema:
- *           type: string
- *         description: ID của bản ghi
+ *           type: number
+ *         description: ID của bản ghi (farmId)
  *     responses:
  *       200:
  *         description: Thành công
@@ -98,8 +117,8 @@ router.get('/:id', AnimalController.getById);
  *         name: id
  *         required: true
  *         schema:
- *           type: string
- *         description: ID của bản ghi
+ *           type: number
+ *         description: ID của bản ghi (farmId)
  *     requestBody:
  *       required: true
  *       content:
@@ -117,8 +136,6 @@ router.get('/:id', AnimalController.getById);
  *               description:
  *                 type: string
  *               imageUrl:
- *                 type: string
- *               farmId:
  *                 type: string
  *     responses:
  *       200:
@@ -141,8 +158,8 @@ router.put('/:id', AnimalController.update);
  *         name: id
  *         required: true
  *         schema:
- *           type: string
- *         description: ID bản ghi cần xóa
+ *           type: number
+ *         description: ID bản ghi cần xóa (farmId)
  *     responses:
  *       200:
  *         description: Xóa thành công

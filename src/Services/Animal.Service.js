@@ -1,4 +1,5 @@
 const Animal = require('../Models/Animal.Model');
+const AnimalRepository = require('../Repository/Animal.Repository');
 
 const AnimalService = {
   createAnimal: async (data) => {
@@ -21,6 +22,10 @@ const AnimalService = {
   deleteAnimal: async (id) => {
     return await Animal.findOneAndDelete({ farmId: Number(id) });
   },
+  
+   searchAnimals: async (filters) => {
+  return await AnimalRepository.search(filters);
+}
 };
 
 module.exports = AnimalService;

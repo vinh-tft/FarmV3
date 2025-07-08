@@ -48,6 +48,18 @@ const AnimalController = {
       res.status(500).json({ error: error.message });
     }
   },
+
+search: async (req, res) => {
+  try {
+    const result = await AnimalService.searchAnimals(req.query);
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+
+
 };
 
 module.exports = AnimalController;

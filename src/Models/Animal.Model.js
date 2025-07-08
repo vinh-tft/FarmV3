@@ -17,7 +17,7 @@ const animalSchema = new Schema(
     unit: { type: String, enum: Object.values(UNIT_MAP) },
     description: { type: String, default: "" },
     imageUrl: { type: String, default: "" },
-    farmId: { type: Number, unique: true },  // sửa thành Number tự tăng
+    farmId: { type: Number, unique: true, sparse: true },  
   },
   { timestamps: true }
 );
