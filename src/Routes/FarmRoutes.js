@@ -4,6 +4,7 @@ const FarmController = require("../Controllers/FarmController");
 
 router.post("/", FarmController.createFarm);
 router.get("/", FarmController.getAllFarms);
+router.get("/search", FarmController.searchFarms);
 router.get("/:id", FarmController.getFarmById);
 router.put("/:id", FarmController.updateFarm);
 router.delete("/:id", FarmController.deleteFarm);
@@ -23,6 +24,34 @@ module.exports = router;
  *   get:
  *     summary: Lấy tất cả farm
  *     tags: [Farms]
+ *     responses:
+ *       200:
+ *         description: Thành công
+ */
+
+/**
+ * @swagger
+ * /api/farms/search:
+ *   get:
+ *     summary: Tìm kiếm farm
+ *     tags: [Farms]
+ *     parameters:
+ *       - in: query
+ *         name: name
+ *         schema:
+ *           type: string
+ *         description: Tên nông trại
+ *       - in: query
+ *         name: location
+ *         schema:
+ *           type: string
+ *         description: Vị trí
+ *       - in: query
+ *         name: status
+ *         schema:
+ *           type: string
+ *           enum: [pending, active, inactive]
+ *         description: Trạng thái
  *     responses:
  *       200:
  *         description: Thành công

@@ -1,70 +1,45 @@
 const express = require("express");
-// const path = require("path");
+const session = require("express-session");
 const connectToMongo = require("./src/Config/MongoDB");
+const setupSwagger = require("./src/Config/Swagger");
+
 const farmRoutes = require("./src/Routes/FarmRoutes");
 const authRoutes = require("./src/Routes/Auth.routes");
 const userRoutes = require("./src/Routes/User.Routes");
-const animalRoutes = require('./src/Routes/Animal.routes');
-const setupSwagger = require("./src/Config/Swagger");
-const session = require('express-session');
-
-// const app = express();
-// const port = 3000;
-
-// // Middleware
-// app.use(express.json());
-
-// // app.use(express.static(path.join(__dirname, "Public")));
-
-// // Kết nối MongoDB
-// connectToMongo();
-
-// // Định tuyến API
-// app.use("/api/auth", authRoutes);
-// app.use("/api/farms", farmRoutes);
-// app.use("/api/animals", animalRoutes);
-
-// // Swagger API Docs
-// setupSwagger(app);
-
-// // // Trang mặc định
-// // app.get("/", (req, res) => {
-// //   res.sendFile(path.join(__dirname, "Public", "login.html"));
-// // });
-
-// // Khởi động server
-// app.listen(port, () => {
-//   console.log(`🚀 Server đang chạy tại http://localhost:${port}`);
-// });
+const animalRoutes = require("./src/Routes/Animal.routes");
 
 const app = express();
 const port = 3000;
 
+// Middleware parse JSON
 app.use(express.json());
 
+// Session config
 app.use(
   session({
-    secret: 'duyan', // Bạn có thể đổi thành chuỗi bất kỳ
+    secret: "duyan",
     resave: false,
     saveUninitialized: false,
     cookie: {
-      secure: false, // true nếu dùng HTTPS
+      secure: false,
       maxAge: 1000 * 60 * 60, // 1 giờ
     },
   })
 );
 
+// Kết nối MongoDB
 connectToMongo();
 
+// Định tuyến API
 app.use("/api/auth", authRoutes);
-app.use("/api/farms", farmRoutes);
-app.use("/api/animals", animalRoutes);
+app.use("/api/farms", farmRoutes);     // 🚜 Farm (bao gồm cả tìm kiếm)
+app.use("/api/animals", animalRoutes); // 🐄 Animal
+app.use("/api/users", userRoutes);     // 👤 User
 
-app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes);
-
+// Swagger docs
 setupSwagger(app);
 
+// Khởi động server
 app.listen(port, () => {
   console.log(`🚀 Server đang chạy tại http://localhost:${port}`);
 });

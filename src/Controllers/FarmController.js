@@ -23,26 +23,35 @@ module.exports = {
   },
 
   async updateFarm(req, res) {
-  try {
-    const id = parseInt(req.params.id);
-    const farm = await FarmService.updateFarm(id, req.body);
-    if (!farm) return res.status(404).json({ message: "Không tìm thấy" });
-    res.json(farm);
-  } catch (error) {
-    console.error("Lỗi khi cập nhật farm:", error);
-    res.status(500).json({ message: "Lỗi máy chủ" });
-  }
-},
+    try {
+      const id = parseInt(req.params.id);
+      const farm = await FarmService.updateFarm(id, req.body);
+      if (!farm) return res.status(404).json({ message: "Không tìm thấy" });
+      res.json(farm);
+    } catch (error) {
+      console.error("Lỗi khi cập nhật farm:", error);
+      res.status(500).json({ message: "Lỗi máy chủ" });
+    }
+  },
 
-async deleteFarm(req, res) {
-  try {
-    const id = parseInt(req.params.id); 
-    const farm = await FarmService.deleteFarm(id);
-    if (!farm) return res.status(404).json({ message: "Không tìm thấy" });
-    res.json({ message: "Đã xoá" });
-  } catch (error) {
-    console.error("Lỗi khi xoá farm:", error);
-    res.status(500).json({ message: "Lỗi máy chủ" });
-  }
-}
+  async deleteFarm(req, res) {
+    try {
+      const id = parseInt(req.params.id); 
+      const farm = await FarmService.deleteFarm(id);
+      if (!farm) return res.status(404).json({ message: "Không tìm thấy" });
+      res.json({ message: "Đã xoá" });
+    } catch (error) {
+      console.error("Lỗi khi xoá farm:", error);
+      res.status(500).json({ message: "Lỗi máy chủ" });
+    }
+  },
+
+  async searchFarms(req, res) {
+    try {
+      const farms = await FarmService.searchFarms(req.query);
+      res.json(farms);
+    } catch (error) {
+      res.status(500).json({ message: "Lỗi khi tìm kiếm Farm" });
+    }
+  },
 };

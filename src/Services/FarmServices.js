@@ -6,4 +6,5 @@ module.exports = {
   getFarmById: (id) => FarmRepo.getFarmById(id),
   updateFarm: (id, data) => FarmRepo.updateFarm(id, data),
   deleteFarm: (id) => FarmRepo.deleteFarm(id),
+  searchFarms: (filters) => FarmRepo.searchFarms(filters),
 };
