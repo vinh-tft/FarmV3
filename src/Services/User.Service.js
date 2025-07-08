@@ -1,5 +1,4 @@
 const userRepos = require("../Repository/User.Repository");
-console.log("userRepos:", userRepos);
 
 const getAllUsers = async () => await userRepos.getAllUsers();
 const getUser = async (id) => await userRepos.getUserById(id);
