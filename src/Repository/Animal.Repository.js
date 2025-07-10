@@ -29,10 +29,38 @@ search: async ({ name, type, farmId }) => {
   if (name) filter.name = { $regex: new RegExp(name, "i") };
   if (type) filter.type = type;
 
-  const num = Number(farmId);
-  if (!isNaN(num)) filter.farmId = num;
+  if (farmId !== undefined && !isNaN(Number(farmId))) {
+    filter.farmId = Number(farmId);
+  }
 
   return Animal.find(filter);
+},
+
+getStats: async () => {
+  const totalAnimals = await Animal.countDocuments();
+
+  const totalQuantityAgg = await Animal.aggregate([
+    { $group: { _id: null, total: { $sum: "$quantity" } } }
+  ]);
+  const totalQuantity = totalQuantityAgg[0]?.total || 0;
+
+  const byTypeAgg = await Animal.aggregate([
+    { $group: { _id: "$type", count: { $sum: 1 } } }
+  ]);
+  const byType = {};
+  byTypeAgg.forEach(item => {
+    byType[item._id] = item.count;
+  });
+
+  const startOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+  const createdThisMonth = await Animal.countDocuments({ createdAt: { $gte: startOfMonth } });
+
+  return {
+    totalAnimals,
+    totalQuantity,
+    byType,
+    createdThisMonth
+  };
 }
 
 };

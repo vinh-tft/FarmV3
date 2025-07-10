@@ -25,6 +25,9 @@ const AnimalService = {
   
    searchAnimals: async (filters) => {
   return await AnimalRepository.search(filters);
+},
+getStats: async () => {
+  return await AnimalRepository.getStats();
 }
 };
 

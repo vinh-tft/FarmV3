@@ -83,7 +83,21 @@ router.get('/', AnimalController.getAll);
  *       200:
  *         description: Thành công
  */
-router.get('/search', AnimalController.search); // 👈 Đặt trước :id
+router.get('/search', AnimalController.search); 
+
+
+/**
+ * @swagger
+ * /api/animals/stats:
+ *   get:
+ *     summary: Thống kê dữ liệu động vật/nông sản
+ *     tags: [Animals]
+ *     responses:
+ *       200:
+ *         description: Trả về số liệu thống kê
+ */
+router.get('/stats', AnimalController.getStats);
+
 
 /**
  * @swagger
@@ -167,5 +181,7 @@ router.put('/:id', AnimalController.update);
  *         description: Không tìm thấy
  */
 router.delete('/:id', AnimalController.delete);
+
+
 
 module.exports = router;

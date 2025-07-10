@@ -56,6 +56,15 @@ search: async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
+},
+
+getStats: async (req, res) => {
+  try {
+    const stats = await AnimalService.getStats();
+    res.json(stats);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 }
 
 
