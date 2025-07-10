@@ -14,6 +14,6 @@ exports.createUser = async (data) => {
 
     data.userId = counter.seq;
 
-    const user = new User(data);
+    const user = new UserAuth(data);
     return await user.save();
 };
