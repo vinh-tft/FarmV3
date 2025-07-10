@@ -1,4 +1,4 @@
-const FarmService = require("../Services/FarmServices");
+const FarmService = require("../Services/Farm.Service");
 const Farm = require("../Models/Farm.Model");
 
 module.exports = {
@@ -23,26 +23,37 @@ module.exports = {
   },
 
   async updateFarm(req, res) {
-  try {
-    const id = parseInt(req.params.id);
-    const farm = await FarmService.updateFarm(id, req.body);
-    if (!farm) return res.status(404).json({ message: "Không tìm thấy" });
-    res.json(farm);
-  } catch (error) {
-    console.error("Lỗi khi cập nhật farm:", error);
-    res.status(500).json({ message: "Lỗi máy chủ" });
-  }
-},
+    try {
+      const id = parseInt(req.params.id);
+      const farm = await FarmService.updateFarm(id, req.body);
+      if (!farm) return res.status(404).json({ message: "Không tìm thấy" });
+      res.json(farm);
+    } catch (error) {
+      console.error("Lỗi khi cập nhật farm:", error);
+      res.status(500).json({ message: "Lỗi máy chủ" });
+    }
+  },
 
-async deleteFarm(req, res) {
-  try {
-    const id = parseInt(req.params.id); 
-    const farm = await FarmService.deleteFarm(id);
-    if (!farm) return res.status(404).json({ message: "Không tìm thấy" });
-    res.json({ message: "Đã xoá" });
-  } catch (error) {
-    console.error("Lỗi khi xoá farm:", error);
-    res.status(500).json({ message: "Lỗi máy chủ" });
-  }
-}
+  async deleteFarm(req, res) {
+    try {
+      const id = parseInt(req.params.id);
+      const farm = await FarmService.deleteFarm(id);
+      if (!farm) return res.status(404).json({ message: "Không tìm thấy" });
+      res.json({ message: "Đã xoá" });
+    } catch (error) {
+      console.error("Lỗi khi xoá farm:", error);
+      res.status(500).json({ message: "Lỗi máy chủ" });
+    }
+  },
+
+  async getFarmsByProvince(req, res) {
+    try {
+      const { provinceCode } = req.params;
+      const farms = await FarmService.getFarmsByProvinceCode(provinceCode);
+      res.status(200).json({ success: true, data: farms });
+    } catch (err) {
+      res.status(500).json({ success: false, message: err.message });
+    }
+  },
+
 };

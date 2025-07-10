@@ -10,6 +10,10 @@ const farmSchema = new Schema(
     farmId: { type: Number, unique: true },
     name: { type: String, required: true, trim: true },
     location: { type: String, required: true },
+    provinceCode: {
+      type: String,
+      required: true,
+    },
     area: { type: Number, default: 0 },
     status: {
       type: String,

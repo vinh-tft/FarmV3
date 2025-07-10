@@ -7,6 +7,7 @@ router.get("/", FarmController.getAllFarms);
 router.get("/:id", FarmController.getFarmById);
 router.put("/:id", FarmController.updateFarm);
 router.delete("/:id", FarmController.deleteFarm);
+router.get("/province/:provinceCode", FarmController.getFarmsByProvince);
 
 module.exports = router;
 
@@ -52,6 +53,9 @@ module.exports = router;
  *                 enum: [pending, active, inactive]
  *               owner:
  *                 type: string
+ *               provinceCode:
+ *                 type: string
+ *                 example: "79"
  *     responses:
  *       201:
  *         description: Tạo thành công
@@ -125,3 +129,24 @@ module.exports = router;
  *       200:
  *         description: Xóa thành công
  */
+
+/**
+ * @swagger
+ * /api/farms/province/{provinceCode}:
+ *   get:
+ *     summary: Lọc danh sách farm theo mã tỉnh/thành
+ *     tags: [Farms]
+ *     parameters:
+ *       - in: path
+ *         name: provinceCode
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Mã tỉnh/thành 
+ *     responses:
+ *       200:
+ *         description: Danh sách farm
+ *       400:
+ *         description: Dữ liệu không hợp lệ
+ */
+

@@ -14,10 +14,15 @@ const getFarmById = async (farmId) => {
   return await Farm.findOne({ farmId });
 };
 
+const getFarmsByProvince = async (provinceCode) => {
+  return await Farm.find({ provinceCode });
+};
+
 module.exports = {
   createFarm,
   getAllFarms,
   getFarmById,
+  getFarmsByProvince,
   updateFarm,
   deleteFarm,
 };
