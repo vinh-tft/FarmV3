@@ -3,7 +3,7 @@ const Counter = require('../Models/Counter.Model');
 
 const AnimalRepository = {
   create: async (data) => {
-    // Tạo animal mới, farmId sẽ tự tăng nếu model đã có hook pre-save
+
     const animal = new Animal(data);
     return await animal.save();
   },

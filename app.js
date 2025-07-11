@@ -7,6 +7,7 @@ const farmRoutes = require("./src/Routes/FarmRoutes");
 const authRoutes = require("./src/Routes/Auth.routes");
 const userRoutes = require("./src/Routes/User.Routes");
 const animalRoutes = require("./src/Routes/Animal.routes");
+const animalLogRoutes = require("./src/Routes/AnimalLog.Routes");
 
 const app = express();
 const port = 3000;
@@ -22,7 +23,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       secure: false,
-      maxAge: 1000 * 60 * 60, // 1 giờ
+      maxAge: 1000 * 60 * 60, 
     },
   })
 );
@@ -32,14 +33,15 @@ connectToMongo();
 
 // Định tuyến API
 app.use("/api/auth", authRoutes);
-app.use("/api/farms", farmRoutes);     // 🚜 Farm (bao gồm cả tìm kiếm)
-app.use("/api/animals", animalRoutes); // 🐄 Animal
-app.use("/api/users", userRoutes);     // 👤 User
+app.use("/api/farms", farmRoutes);     
+app.use("/api/animals", animalRoutes); 
+app.use("/api/users", userRoutes);    
+app.use("/api/animal-logs", animalLogRoutes); 
 
 // Swagger docs
 setupSwagger(app);
 
 // Khởi động server
 app.listen(port, () => {
-  console.log(`🚀 Server đang chạy tại http://localhost:${port}`);
+  console.log(`Server đang chạy tại http://localhost:${port}`);
 });
